@@ -9,4 +9,4 @@ docker-compose restart selenium
 
 ## dataset
 
-phishing [dataset](./phishurls.csv) is from [JPCERTCC/phishurl-list](https://github.com/JPCERTCC/phishurl-list/blob/main/2023/202309.csv)
+phishing [dataset](./phishurls.csv) is from [JPCERTCC/phishurl-list](https://github.com/JPCERTCC/phishurl-list/blob/main/2023)
