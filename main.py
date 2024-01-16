@@ -14,7 +14,7 @@ if __name__ == "__main__":
         os.mkdir("out")
     
     dataset_path = "phishurls.csv"
-    urls = ['https://www.google.com']#load_dataset(dataset_path)
+    urls = load_dataset(dataset_path)
     urls_len = len(urls)
     
     driver = Driver()
