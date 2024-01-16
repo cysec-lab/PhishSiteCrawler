@@ -14,7 +14,7 @@ if __name__ == "__main__":
         os.mkdir("out")
     
     dataset_path = "phishurls.csv"
-    urls = load_dataset(dataset_path)
+    urls = ['https://www.google.com']#load_dataset(dataset_path)
     urls_len = len(urls)
     
     driver = Driver()
@@ -24,13 +24,15 @@ if __name__ == "__main__":
         if html == "":
             continue
         dirpath = os.path.join("out", driver.url2domain(url))
-        driver.save(dirpath, "index.html", html)
-        driver.save_meta(dirpath, url)
-        driver.screen_shot(dirpath)
 
         downloader = AssertDownloader(html, url)
         downloader.parse()
+        html = downloader.replace_external_domains(html)
         downloader.download_files(dirpath)
+        
+        driver.save(dirpath, "index.html", html)
+        driver.save_meta(dirpath, url)
+        driver.screen_shot(dirpath)
 
         info(f"Finish scraping {url}")
     driver.__exit__()
