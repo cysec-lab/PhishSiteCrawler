@@ -4,6 +4,8 @@ from logger import info
 from save_resource import AssertDownloader
 from Driver import Driver
 
+START_IDX = 0
+
 def load_dataset(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         reader = csv.reader(f)
@@ -19,6 +21,8 @@ if __name__ == "__main__":
     
     driver = Driver()
     for idx, url in enumerate(urls):
+        if idx < START_IDX:
+            continue
         info(f"({idx}/{urls_len}) Start scraping {url}")
         html = driver.get_html(url)
         if html == "":
