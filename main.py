@@ -3,8 +3,12 @@ import csv
 from logger import info
 from save_resource import AssertDownloader
 from Driver import Driver
+import argparse
 
-START_IDX = 0
+CONFIG = {
+    "START_IDX": 0,
+    "END_IDX": -1
+}
 
 def load_dataset(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
@@ -12,6 +16,18 @@ def load_dataset(filepath):
         return [row[1] for row in reader][1:]
 
 if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser(
+                    prog='Phish Crawler',
+                    description='Crawler for Phishing WebSite')
+    parser.add_argument('-s', '--start') 
+    parser.add_argument('-e', '--end')
+    
+    CONFIG["START_IDX"] = int(parser.parse_args().start)
+    CONFIG["END_IDX"] = int(parser.parse_args().end)
+    
+    args = parser.parse_args()
+    
     if os.path.exists("out") == False:
         os.mkdir("out")
     
@@ -21,8 +37,11 @@ if __name__ == "__main__":
     
     driver = Driver()
     for idx, url in enumerate(urls):
-        if idx < START_IDX:
+        if idx < CONFIG["START_IDX"]:
             continue
+        if CONFIG["END_IDX"] != -1 and idx > CONFIG["END_IDX"]:
+            break
+        
         info(f"({idx}/{urls_len}) Start scraping {url}")
         html = driver.get_html(url)
         if html == "":
